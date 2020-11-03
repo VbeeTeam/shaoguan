@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>注册事件</title>
+</head>
+<body>
+
+  <input type="button" value="按钮" id="btn">
+  <script>
+    var btn = document.getElementById('btn');
+
+    // 注册事件的第一种方式
+    // 无法给同一个对象的同一个事件注册多个事件处理函数
+    // btn.onclick = function () {
+    //   alert('用户1hello world');
+    // }
+    // btn.onclick = function () {
+    //   alert('用户2hello');
+    // }
+
+    // 注册事件的第二种方式
+    btn.addEventListener('click', function () {
+      alert('hello world');
+    })
+    btn.addEventListener('click', function () {
+      alert('用户2hellohello');
+    })
+    
+
+  </script>
+</body>
+</html>

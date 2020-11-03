@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+
+	</style>
+</head>
+
+<body style="height:1000px">
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+	//1、项目中有哪些类  球球
+
+
+	class Ball {
+		//构造函数
+		constructor(ord, width, height, color, left1, top1, directionLeft, directionTop, incLeft, incTop, timeSpace) {
+			//属性
+			this.domObj = null; //dom属性
+			this.ord = ord;    //球的序号
+			this.width = width;
+			this.height = height;
+			this.color = color;
+			this.left1 = left1; 
+			this.top1 = top1;
+			this.directionLeft = directionLeft;
+			this.directionTop = directionTop;
+			this.incLeft = incLeft; //increment;
+			this.incTop = incTop;
+			this.timeSpace = timeSpace;
+			this.myTimer = null;
+		}
+
+		//方法
+		//创建外观
+		createUI() {
+			this.domObj = document.createElement("div");
+			this.domObj.innerHTML = this.ord;
+			this.domObj.style.cssText = "position:absolute;border-radius:50%;text-align:center";
+			this.domObj.style.lineHeight = this.height + "px";
+			this.domObj.style.left = this.left1 + "px";
+			this.domObj.style.top = this.top1 + "px";
+			this.domObj.style.width = this.width + "px";
+			this.domObj.style.height = this.height + "px";
+			this.domObj.style.backgroundColor = this.color;
+			document.body.appendChild(this.domObj);
+		}
+
+		go() {
+			this.myTimer = setInterval(() => {
+				//1、改变数据
+				this.left1 = this.left1 + this.directionLeft * this.incLeft;
+				this.top1 = this.top1 + this.directionTop * this.incTop;
+				//2、处理边界
+				let clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
+				let clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+				//3、处理滚动条的情况
+				let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+				let scrollLeft = document.documentElement.scrollLeft || document.body.scrollLeft;
+				
+				if (this.left1 <= 0 + scrollLeft) {
+					this.directionLeft = 1;
+					this.left1 = scrollLeft;
+				} else if (this.left1 + this.width >= clientWidth + scrollLeft) {
+					this.directionLeft = -1;
+					this.left1 = clientWidth + scrollLeft - this.width;
+				}
+
+				if (this.top1 <= 0 + scrollTop) {
+					this.directionTop = 1;
+					this.top1 = scrollTop
+				} else if (this.top1 + this.height >= clientHeight + scrollTop) {
+					this.directionTop = -1;
+					this.top1 = clientHeight + scrollTop - this.height;
+				}
+
+				//3、改变外观
+				this.domObj.style.left = this.left1 + "px";
+				this.domObj.style.top = this.top1 + "px";
+			}, this.timeSpace);
+		}
+	}
+
+
+	window.onload = function () {
+
+		for (let i = 0; i < 10; i++) {
+			//1、随机获取弹力球的尺寸(10-100)
+			let size = parseInt(Math.random() * 90 + 10);
+			//2、随机获取颜色的尺寸
+			let color = getColor();
+			//3、随机获取弹力球的起始位置
+			let left1 = parseInt(Math.random() * 1000);
+			let top1 = parseInt(Math.random() * 500);
+			//4、随机方向;
+			let directionLeft = parseInt(Math.random() * 2) == 0 ? -1 : 1;
+			let directionTop = parseInt(Math.random() * 2) == 0 ? -1 : 1;
+			//5、随机步长;
+			let inc = parseInt(Math.random() * 5) + 5;
+			//6、随机时间间隔
+			let timeSpace = parseInt(Math.random() * 40) + 10;
+
+			let b1 = new Ball(i + 1, size, size, color, left1, top1, directionLeft, directionTop, inc, inc, timeSpace);
+			b1.createUI();
+			b1.go();
+		}
+	}
+
+	//随机取砖块颜色 rgb(0,0,0,0.1)
+	function getColor() {
+		var r = Math.floor(Math.random() * 256);
+		var g = Math.floor(Math.random() * 256);
+		var b = Math.floor(Math.random() * 256);
+		return `rgb(${r},${g},${b},${0.7})`;
+	}
+</script>

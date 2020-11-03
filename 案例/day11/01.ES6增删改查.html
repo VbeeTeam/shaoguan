@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ES6语法练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .search {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .search input {
+            height: 20px;
+            width: 55px;
+        }
+
+        .search button {
+            height: 25px;
+            width: 40px;
+            margin: 0 5px;
+        }
+
+        table {
+            width: 500px;
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            text-align: center;
+            margin: 10px auto;
+        }
+
+        table th,
+        td {
+            border: 1px solid #ccc;
+        }
+        .del{
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="search">
+        按照价格查询：<input type="text" class="start">-<input type="text" class="end">
+        <button class="search_price">搜索</button>按照商品名称：<input type="text" class="product"><button
+            class="search_pro">查询</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>产品名称</th>
+                <th>价格</th>
+                <th>操作</th>
+            </tr>
+            <!-- <tr>
+                <td>1</td>
+                <td>小米</td>
+                <td>999</td>
+                <td>删除</td>
+            </tr> -->
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        let data = [{
+            id: 1,
+            pname: '小米',
+            price: 3999
+        }, {
+            id: 2,
+            pname: 'oppo',
+            price: 999
+        }, {
+            id: 3,
+            pname: '荣耀',
+            price: 1299
+        }, {
+            id: 4,
+            pname: '华为',
+            price: 1999
+        }, ];
+        let tbody = document.querySelector('tbody');
+        let start = document.querySelector('.start');
+        let end = document.querySelector('.end');
+        let search_price = document.querySelector('.search_price');
+        let product = document.querySelector('.product');
+        let search_pro = document.querySelector('.search_pro');
+
+        
+        //把数据渲染到页面上
+        function getData(data) {
+            //x渲染之前先把tbody清空
+            tbody.innerHTML = '';
+            data.forEach((value) => {
+                let tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + value.id + '</td><td>' + value.pname + '</td><td>' + value.price +
+                    '</td><td class="del">删除</td>';
+                tbody.appendChild(tr);
+                //删除
+                let delDom = tr.lastChild;
+                delDom.addEventListener('click', () => {
+                    tbody.removeChild(tr);
+                })
+            });
+
+        };
+        //功能1实现，按照商品价格查询商品
+        search_price.addEventListener('click', () => {
+            let newdata = data.filter((value) => {
+                return value.price >= start.value && value.price <= end.value;
+            });
+            getData(newdata);
+        });
+        //功能2，根据商品名称查找商品
+        search_pro.addEventListener('click', () => {
+            let arr = [];
+            data.forEach((value) => {
+                if (value.pname.indexOf(product.value) != -1) {
+                    arr.push(value);
+                    return arr;
+                }
+            });
+            getData(arr);
+        })
+
+        window.onload = function() {
+            getData(data);
+        }
+    </script>
+</body>
+
+</html>

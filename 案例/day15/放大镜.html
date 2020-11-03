@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放大镜</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        #box{
+            width: 500px;
+            height: 400px;
+            background-image: url(img/1.jpg);
+            background-size: 500px 400px;
+        }
+        #moveBlock{
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            opacity: 0.5;
+            position: absolute;
+            left: 0;
+            top: 0;
+
+            display: none;
+        }
+        #show{
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            background-image: url(img/1.jpg);
+            background-size: 1500px 1200px;
+            /* background-position: -100px -200px; */
+            position: absolute;
+            left: 510px;
+            top: 0;
+
+            display: none;
+        }
+        #imgList li{
+            width: 80px;
+            height: 80px;
+            float: left;
+            margin: 10px;
+            background-size: cover;
+        }
+        #imgList li:nth-child(1){
+            background-image: url(img/1.jpg);
+        }
+        #imgList li:nth-child(2){
+            background-image: url(img/2.jpg);
+        }
+        #imgList li:nth-child(3){
+            background-image: url(img/3.jpg);
+        }
+        #imgList li:nth-child(4){
+            background-image: url(img/4.jpg);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="moveBlock"></div>
+        <div id="show"></div>
+    </div>
+    <ul id="imgList">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>
+<script>
+
+    function $(id){
+        return document.getElementById(id);
+    }
+
+    window.onload = function(){
+        
+        //1.移动的块跟着鼠标走
+        $("box").onmousemove = function(event){
+            let evt = event || window.event;
+
+            //计算移动的块left top
+            // let left1 = evt.pageX - $("box").offsetLeft;
+            // let top1 = evt.pageY - $("box").offsetTop;
+            let left1 = evt.pageX - $("box").offsetLeft - $("moveBlock").offsetWidth / 2;
+            let top1 = evt.pageY - $("box").offsetTop - $("moveBlock").offsetWidth / 2;
+            
+            //边界
+            //左右
+            if(left1 <= 0){
+                left1 = 0;
+            }else if(left1 >= $("box").offsetWidth - $("moveBlock").offsetWidth){
+                left1 = $("box").offsetWidth - $("moveBlock").offsetWidth;
+            }
+            //上下
+            if(top1 <= 0){
+                top1 = 0;
+            }else if(top1 >= $("box").offsetHeight - $("moveBlock").offsetHeight){
+                top1 = $("box").offsetHeight - $("moveBlock").offsetHeight;
+            }
+
+            //外观
+            $("moveBlock").style.left = left1 + "px";
+            $("moveBlock").style.top = top1 + "px";
+            //改变背景图位置
+            $("show").style.backgroundPosition = (-1*3*left1) + "px " + (-1*3*top1) + "px";
+        }
+
+        //2.点击li切换图片
+        let lis = $("imgList").children;
+        for(let i = 0; i < lis.length; i++){
+
+            lis[i].onclick = function(){
+                console.log(this);
+                //获取节点style属性
+                let bgUrl = window.getComputedStyle(this)["backgroundImage"];
+                console.log(bgUrl);
+                $("box").style.backgroundImage = bgUrl;
+                $("show").style.backgroundImage = bgUrl;
+
+            }
+        }
+
+        //3.显示隐藏
+        //鼠标进入box 块、show显示
+        //鼠标离开box 块、show隐藏
+
+        $("box").onmouseover = function() {
+            $("moveBlock").style.display = "block";
+            $("show").style.display = "block";
+        }
+
+        $("box").onmouseout = function() {
+            $("moveBlock").style.display = "none";
+            $("show").style.display = "none";
+        }
+        
+    }
+
+
+</script>

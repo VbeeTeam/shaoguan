@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .login{
+            width: 300px;
+            height: 200px;
+            margin: 100px auto;
+            background-color: lightgreen;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #ccc;
+        }
+        .login li{
+            line-height: 50px;
+        }
+        .login label{
+            display: inline-block;
+            width: 100px;
+            text-align: center;
+            color: #fff;
+        }
+        .login input{
+            border: none;
+            outline: none;
+            padding: 4px;
+            border-radius: 5px;
+        }
+        .login button{
+            display: block;
+            width: 150px;
+            height: 30px;
+            text-align: center;
+            margin: 30px auto;
+            background-color: #3399FF;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login">
+        <ul>
+            <li><label>用户名</label><input type="text" id="name"></li>
+            <li><label>密码</label><input type="passsword" id="password"></li>
+        </ul>
+        <button onclick="send()">登录</button>
+    </div>
+
+</body>
+
+</html>
+
+<script>
+    function send() {
+
+        var name = document.getElementById("name").value;
+        var password = document.getElementById("password").value;
+
+        // 1、创建XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+
+        // 2、向服务器发送请求
+        xhr.open("POST", "https://accounts.douban.com/j/mobile/login/basic", true);
+        // 3、执行发送动作
+        var obj = {
+            name: name,
+            password: password
+        }
+        var str = JSON.stringify(obj)
+        xhr.send(str);
+
+        // 4、服务器响应的处理
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+               alert("登录成功");
+            }
+        }
+    }
+</script>

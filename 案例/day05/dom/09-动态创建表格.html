@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="box"></div>
+  <script>
+    
+    // 1 创建table 元素
+    var table = document.createElement('table');
+    var box = document.getElementById("box");
+    box.appendChild(table);
+    // 2 创建表头
+    var thead = document.createElement('thead');
+    table.appendChild(thead);
+
+    var tr = document.createElement('tr');
+    thead.appendChild(tr);
+
+    var th = document.createElement('th');
+    tr.appendChild(th);
+    th.innerHTML = "姓名"
+
+    th = document.createElement('th');
+    tr.appendChild(th);
+    th.innerHTML = "科目"
+
+    th = document.createElement('th');
+    tr.appendChild(th);
+    th.innerHTML = "成绩"
+
+    // 3 创建表体
+    var tbody = document.createElement('tbody');
+    table.appendChild(tbody);
+
+    for (var i = 0; i < 5; i++) {
+      var tr = document.createElement('tr');
+      tbody.appendChild(tr);
+
+      var td = document.createElement('td');
+      tr.appendChild(td);
+      td.innerHTML = "张三"
+
+      td = document.createElement('td');
+      tr.appendChild(td);
+      td.innerHTML = "语文"
+
+      td = document.createElement('td');
+      tr.appendChild(td);
+      td.innerHTML = "100"
+    }
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script>
+    
+  </script>
+</head>
+<body>
+  <input id="txt" type="text">
+  <script>
+    // 键盘事件
+    // keydown 键盘按下的时候
+    // keyup   键盘弹起的时候
+    var txt = document.getElementById('txt');
+    txt.onkeydown = function (e) {
+      // 判断当前用户按下的键是否是数字
+      e = e || window.event;
+
+      // e.keyCode  键盘码
+      // console.log(e.keyCode);
+      if (e.keyCode >= 48 && e.keyCode <= 57) {
+        console.log("输入的是数字");
+      } else if(e.keyCode >= 65 && e.keyCode <= 90){
+        console.log("输入的是字母");
+      } else {
+        alert("您胡输入呢！")
+      }
+    }
+  </script>
+</body>
+</html>

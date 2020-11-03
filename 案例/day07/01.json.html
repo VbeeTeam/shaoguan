@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>json</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    //描述人员信息
+    var name = "张三";
+    var sex = "男";
+    var age = 20;
+    console.log(name, sex, age);
+
+    //json格式 键值对
+    var info = {
+        name: "张三",
+        sex: "女",
+        age: 20
+    }
+    console.log(info['name'], info['sex'], info['age']);
+
+
+    //描述一只猫
+    var cat = {
+        name: "喵喵",
+        age: 2,
+        color: "灰色",
+        fun: function () {
+            alert("喵~")
+        }
+    }
+    console.log(cat.name)
+    cat.fun();
+
+    //循环json
+    for (var key in info) {
+        console.log(key + ' : ' + info[key]);
+    }
+
+</script>

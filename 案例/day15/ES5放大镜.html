@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 400px;
+            height: 500px;
+            margin: 50px 100px;
+        }
+
+        .middle {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #000;
+            position: relative;
+        }
+
+        .middle img {
+            width: 400px;
+            height: 400px;
+        }
+
+        ol {
+            width: 400px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+
+        ol li {
+            border: 1px solid blue;
+            width: 50px;
+            height: 50px;
+            margin: 0 5px;
+        }
+
+        ol li img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .small {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 0, 0.5);
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+        }
+
+        .big {
+            width: 400px;
+            height: 400px;
+            border: 1px solid #000;
+            position: absolute;
+            left: 105%;
+            top: 0;
+            background-image: url(img/1.jpg);
+            background-size: 1600px 1600px;
+            display: none;
+        }
+
+        .active {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="middle"><img src="img/1.jpg" alt="">
+            <div class="small"></div>
+            <div class="big"></div>
+        </div>
+
+        <ol>
+            <li class="active"><a href="javascript:;"><img src="img/1.jpg" alt=""></a></li>
+            <li><a href="javascript:;"><img src="img/2.jpg" alt=""></a></li>
+        </ol>
+    </div>
+</body>
+
+</html>
+<script>
+    function Fd(className) {
+        this.box = document.querySelector("." + className) //获取相应的元素
+        this.middle = document.querySelector(".middle");
+        this.olis = document.querySelectorAll("ol li");
+        this.big = document.querySelector(".big");
+        this.small = document.querySelector(".small");
+        this.middle.img = document.querySelector(".middle img")
+        this.middle.onmouseover = () => this.over(); //鼠标移入事件
+        this.middle.onmouseout = () => this.out(); //鼠标移出
+        var _this = this;
+        for (var i = 0; i < this.olis.length; i++) {
+            this.olis[i].onclick = function () {
+                _this.click(this) //鼠标点击小图片切换相应的中图和大图
+            }
+        }
+    }
+    Fd.prototype.over = function () {
+        this.small.style.display = "block"; //移入时小盒子大盒子显示
+        this.big.style.display = "block"
+        var _this = this; //用_this将this接受起来
+        this.middle.onmousemove = function (e) { //传入e
+            var e = e || window.event; //获取事件对象
+            var x = e.pageX; //获取光标到html左侧的距离
+            var y = e.pageY; //获取光标到html顶侧的距离
+            var l = x - _this.box.offsetLeft - _this.small.clientWidth / 2; //获取光标x轴移动的距离
+            var h = y - _this.box.offsetTop - _this.small.clientHeight / 2; //获取光标移到y轴的距离
+            if (l <= 0) {
+                l = 0
+            } else if (l >= this.clientWidth - _this.small.clientWidth) {
+                l = this.clientWidth - _this.small.clientWidth;
+            }
+            if (h <= 0) {
+                h = 0
+            } else if (h >= this.clientHeight - _this.small.clientHeight) {
+                h = this.clientHeight - _this.small.clientHeight
+            } //限制光标移动不超过大盒子范围
+            _this.small.style.left = l + "px";
+            _this.small.style.top = h + "px";
+            _this.da(l, h) //设置大盒子在小盒子移动时相应的比例变化
+        }
+    }
+    Fd.prototype.da = function (l, h) { //这边要传入参数l,h
+        var prew = l / this.middle.clientWidth; //x轴的比例
+        var style = window.getComputedStyle(this.big).backgroundSize; //获取大盒子背景图的大小，但是带单位
+        var bigw = parseInt(style.split(" ")[0]); //得出width并转为number型
+        var bigl = prew * bigw; //算出大盒子相应比例
+
+        var preh = h / this.middle.clientHeight; //y轴的比列
+        var bigh = parseInt(style.split(" ")[1]); //
+        var bigt = preh * bigh;
+        this.big.style.backgroundPosition = `-${bigl}px -${bigt}px`; //设置大盒子背景图的位置
+    }
+    Fd.prototype.out = function () {
+        this.small.style.display = "none"; //移出时让它们消失
+        this.big.style.display = "none"
+    }
+    Fd.prototype.click = function (ele) { //传入参数
+        for (var i = 0; i < this.olis.length; i++) {
+            this.olis[i].className = "";
+        }
+        ele.className = "active"; //点击小盒子相应的边框的变化
+        var smallimg = ele.firstChild.firstChild; //获取到小图片
+        var smallimgsrc = smallimg.getAttribute("src"); //获取到小图片的src
+        var index = smallimgsrc.lastIndexOf("."); //获取到.后面的
+        var slice = smallimgsrc.slice(index - 1); //获取到包括.后面的
+        var middlesrc = "img/" + slice; //给中等盒子设置src
+        this.middle.img.setAttribute("src", middlesrc); //添加src
+        var bigsrc = "img/" + slice;
+        this.big.style.backgroundImage = "url(" + bigsrc + ")"; //注意是背景图
+    }
+    var fd = new Fd("box"); //传入box
+</script>

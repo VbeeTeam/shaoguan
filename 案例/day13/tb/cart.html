@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link rel="stylesheet" href="css/cart.css" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>我的购物车</h1>
+        </div>
+    </div>
+    <!-- 购物车 -->
+    <div id="car" class="car">
+        <div class="head_row">
+            <div class="left check"><i class="checkAll">√</i></div>
+            <div class="left img"> 全选</div>
+            <div class="left name">商品名称</div>
+            <div class="left price">单价</div>
+            <div class="left number">数量</div>
+            <div class="left subtotal">小计</div>
+            <div class="left ctrl">操作</div>
+        </div>
+    </div>
+    <!-- 结算 -->
+    <div class="sum_area">
+        <div id="pay">去结算</div>
+        <div id="pay_amout">合计：<span id="price_num">0</span>元</div>
+    </div>
+</body>
+
+</html>
+<script src="js/jquery-3.5.1.min.js"></script>
+<script>
+    $(function () {
+        var cartLit = JSON.parse(window.localStorage.getItem("cart")).cart;
+        console.log(cartLit);
+
+        //获取购物车dom
+        var carDom = document.getElementById("car");
+
+        //循环数据创建购物车
+        for (var i = 0; i < cartLit.length; i++) {
+            //存储添加商品的盒子
+            var oDiv = document.createElement("div");
+            oDiv.className = "row";
+            //根据下标取数据
+            var data = cartLit[i];
+            oDiv.innerHTML +=
+                '<div class="check left"> <i class="i_check" id="i_check">√</i></div>';
+            oDiv.innerHTML += '<div class="img left"><img src="' + data["imgUrl"] +
+                '" width="80" height="80"></div>';
+            oDiv.innerHTML += '<div class="name left"><span>' + data["title"] + '</span></div>';
+            oDiv.innerHTML += '<div class="price left"><span>' + data["price"] + '元</span></div>';
+            oDiv.innerHTML +=
+                ' <div class="item_count_i"><div class="num_count"><div class="count_d">-</div><div class="c_num">1</div><div class="count_i">+</div></div> </div>'
+            oDiv.innerHTML += '<div class="subtotal left"><span>' + data["price"] + '元</span></div>'
+            oDiv.innerHTML += '<div class="ctrl left"><a href="javascript:;" class="del">×</a></div>';
+
+            carDom.appendChild(oDiv);
+        }
+
+
+        //点击复选框添加类名样式
+        $("#car .i_check").click(function () {
+
+            if ($(this).hasClass("i_check i_acity")) {
+                $(this).removeClass("i_acity");
+                $(".checkAll").removeClass("i_acity2");
+            } else {
+                $(this).addClass("i_acity");
+                if ($(".i_acity").length == cartLit.length) {
+                    $(".checkAll").addClass("i_acity2");
+                }
+            }
+            getAmount();
+        })
+        //获取删除按钮
+        $("#car .del").click(function () {
+            var result = confirm("确定删除吗?");
+            if (result) {
+                console.log($(this).index(".del"))
+                let index = $(this).index(".del");
+                //删除数据 存入缓存
+                cartLit.splice(index, 1);
+                var strObj = JSON.stringify({cart: cartLit});
+                window.localStorage.setItem("cart",strObj);
+
+                $(this).parent().parent().remove();
+                getAmount();
+            }
+        })
+        // 用于判断全选按钮是否选中
+        var index = false;
+        //点击全选按钮
+        $(".checkAll").click(function () {
+            //获取购物车所有复选框
+            var choose = $("#car i");
+            //有商品的时候进行全选
+            if (choose.length != 1) {
+
+                if (!index) {
+                    $(this).addClass("i_acity2");
+                    $("#car i:gt(0)").addClass("i_acity");
+                } else {
+                    $("#car i:gt(0)").removeClass("i_acity");
+                    $(this).removeClass("i_acity2");
+                }
+                index = !index;
+            }
+            getAmount();
+        })
+
+        //进行价格合计
+        function getAmount() {
+            var sum = 0;
+            //获取所有选中的复选框
+            $(".i_acity").each(function () {
+                var num = $(this).parent().parent().find(".subtotal").text()
+                //去掉字符串最后一个"元"
+                num = num.substring(0, num.length - 1);
+                num = Number(num)
+                sum += num;
+            });
+            sum = sum.toFixed(2);
+            //合计节点
+            $("#price_num").text(sum);
+        }
+
+        //+号按钮
+        $(".count_i").click(function () {
+
+            //获取小计节点 父节点的父节点的下个兄弟节点
+            var at = $(this).parent().parent().next();
+            //获取单价节点 父节点的父节点的上个兄弟节点
+            var pt = $(this).parent().parent().prev();
+            //获取数量值
+            var node = $(this).prev();
+
+            num = node.text();
+            num = parseInt(num);
+            num++;
+            node.text(num);
+            //获取单价
+            price = pt.text();
+            //去掉字符串最后一个"元"
+            price = price.substring(0, price.length - 1);
+            //计算小计值
+            at.text((price * num).toFixed(2) + "元");
+            //计算总计值
+            getAmount();
+        })
+        //-号按钮
+        $(".count_d").click(function () {
+
+            //获取小计节点
+            at = $(this).parent().parent().next();
+            //获取单价节点
+            pt = $(this).parent().parent().prev();
+            //获取数量节点
+            node = $(this).next();
+            num = node.text();
+            num = parseInt(num);
+            if (num > 1) {
+                num--;
+            }
+            node.text(num);
+            //获取单价
+            price = pt.text();
+            //去掉字符串最后一个"元"
+            price = price.substring(0, price.length - 1);
+            //计算小计值     
+            at.text((price * num).toFixed(2) + "元");
+            //计算总计值
+            getAmount();
+        })
+
+
+    })
+</script>

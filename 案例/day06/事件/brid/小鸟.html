@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>像素鸟</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#game{
+				width: 800px;
+				height: 600px;
+				background: url(img/sky.png);
+				background-size: cover;
+				margin: 30px auto;
+				position: relative;
+				overflow: hidden;
+			}
+			#bird{
+				width: 34px;
+				height: 24px;
+				background: url(img/birds.png) center no-repeat;
+				position: absolute;
+				top: 100px;
+				left: 100px;
+			}
+
+		</style>
+	</head>
+	<body>
+		<div id="game">
+			<div id="bird"></div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	/*
+		1.让小鸟飞起来
+		2.移动的背景
+		3.移动的管道
+	*/
+   //获取dom节点
+	var gameDom = document.getElementById("game");
+	var birdDom = document.getElementById("bird");
+	//初始化背景图的值
+	var sky = {
+		x: 0
+	}
+	//初始化小鸟的值 步长 自身距离
+	var bird = {
+		speedX: 5,
+		speedY: 0,
+		x: birdDom.offsetLeft,
+		y: birdDom.offsetTop
+	}
+	//游戏的状态
+	var running = true;
+	var myTime = null;
+	var myTime2 = null;
+	myTime = setInterval(function() {
+		if(running) {
+			//移动游戏背景
+			sky.x -= 5;
+			gameDom.style.backgroundPositionX = sky.x + "px";
+			//实现小鸟上下运动
+			bird.speedY += 1;
+			bird.y += bird.speedY;
+			//判断边界
+			if(bird.y <= 0){
+				bird.y = 0;
+				running = false;
+			}else if(bird.y + birdDom.offsetHeight >= 600){
+				bird.y = 600 - birdDom.offsetHeight;
+				running = false;
+			}
+			birdDom.style.top = bird.y + "px";
+		}else{
+			alert("游戏结束！");
+			clearInterval(myTime);
+		}
+	},30)
+	//让小鸟飞起来  点击游戏背景小鸟向上运动
+	gameDom.onclick = function(){
+		bird.speedY = -10;
+	}
+	//创建管道
+	function createPipe(positionX) {
+		var pipe = {};
+		//管道的位置
+		pipe.x = positionX;
+		//管道的高
+		pipe.tHeight = 200 + parseInt(Math.random() * 100);
+		pipe.bHeight = 600 - pipe.tHeight - 200;
+		//创建上方管道节点
+		var tPipe = document.createElement("div");
+		
+		tPipe.style.width = "50px";
+		tPipe.style.height = pipe.tHeight + "px";
+		tPipe.style.background = "url(./img/pipe2.png) no-repeat center bottom";
+		tPipe.style.position = "absolute";
+		tPipe.style.left = pipe.x + "px";
+		tPipe.style.top = "0px";
+		gameDom.appendChild(tPipe);
+		//创建下方管道节点
+		var bPipe = document.createElement("div");
+		bPipe.style.width = "50px";
+		bPipe.style.height = pipe.bHeight + "px";
+		bPipe.style.background = "url(./img/pipe1.png) no-repeat center top";
+		bPipe.style.position = "absolute";
+		bPipe.style.left = pipe.x + "px";
+		bPipe.style.bottom = "0px";
+		gameDom.appendChild(bPipe);
+		//让管道动起来
+		myTime2 = setInterval(function() {
+			if(running){
+				pipe.x -= 2;
+				tPipe.style.left = pipe.x + "px";
+				bPipe.style.left = pipe.x + "px";
+				if(pipe.x <= 0) {
+					pipe.x = 800;
+				}
+				//判断
+				var tCheck = bird.x + 34 > pipe.x && bird.x < pipe.x + 50 && bird.y < pipe.tHeight;
+				var bCheck = bird.x + 34 > pipe.x && bird.x < pipe.x + 50 && bird.y > pipe.tHeight + 200;
+				if(tCheck || bCheck){
+					running = false;
+					clearInterval(myTime2);
+				}
+			}
+		},30)
+	}
+	createPipe(400);
+	createPipe(600);
+	createPipe(800);
+	createPipe(1000);
+</script>

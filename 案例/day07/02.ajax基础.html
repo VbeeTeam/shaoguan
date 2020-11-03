@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax基础语法</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    // 使用Ajax发送请求需要如下几步：
+    // 1、创建XMLHttpRequest对象
+    var xhr = new XMLHttpRequest();
+    // 2、向服务器发送请求
+
+    // 异步：同时做一件事情
+    // 同步：一件事做完再去做下一件事
+
+    // GET请求
+    // xhr.open('GET', '/api/getList', true);
+    // 带参数
+    // xhr.open('GET', '/api/getList?name=zhangsan&sex=男', true);
+    // 3、执行发送动作
+    // xhr.send();
+
+    // POST请求
+    // xhr.open('POST', '/api/getList', true);
+    // 带参数
+    // xhr.open('POST', '/api/getList', true);
+    // post表单设置请求头
+    // xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    // 3、执行发送动作
+    // xhr.send("name=zhangsan&sex=男");
+
+    // 4、服务器响应的处理
+    xhr.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           console.log("拿到响应的数据")
+           console.log(xhr.responseText);
+        }
+    }
+</script>

@@ -1,0 +1,563 @@
+/* 首页样式 */
+
+/* header */
+
+header{
+    height: 35px;
+    line-height: 35px;
+}
+.header_left{
+    float: left;
+}
+.header_right{
+    float: right;
+}
+header a{
+    display: block;
+    float: left;
+    font-size: 12px;
+    margin-left: 10px;
+    position: relative;
+}
+header a .iconfont{
+    font-size: 12px;
+    margin-left: 5px;
+}
+header a .icRight{
+    margin: 0;
+    margin-right: 5px;
+}
+
+.pos ul{
+    position: absolute;
+    left: 0;
+    top: 35px;
+    background-color: #fff;
+    width: 200px;
+    height: 200px;
+    overflow-y: scroll;
+    padding-left: 20px;
+    box-sizing: border-box;
+    display: none;
+}
+.myHeight ul{
+    width: 100px;
+    height: 80px;
+    overflow-y: hidden;
+    padding-left: 10px;
+}
+
+/* top */
+
+.top{
+    background: pink;
+    padding: 10px 0;
+    height: 100px;
+    box-sizing: border-box;
+}
+.top img{
+    float: left;
+    width: 209px;
+    height: 75px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.top img:first-of-type{
+    width: 80px;
+    height: 80px;
+}
+
+/* search */
+
+.search{
+    width: 100%;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.search_gif{
+    float: left;
+}
+.search_content{
+    float: left;
+    padding-top: 30px;
+}
+.tab a{
+    font-size: 12px;
+    color: #F40;
+    padding: 2px 5px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    
+}
+.tab a:first-of-type{
+    background-image: linear-gradient(to right,#ff9000 0,#ff5000 100%);
+    color: #fff;
+}
+.search_btn{
+    
+}
+.search_d{
+    width: 560px;
+    border: 2px solid #ff5000;
+    border-bottom-left-radius: 25px;
+    border-top-left-radius: 25px;
+    box-sizing: border-box;
+    border-right: none;
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+}
+
+.search_d .iconfont{
+    font-size: 16px;
+    vertical-align: middle;
+}
+.search_d input{
+    font-size: 12px;
+    color: #ccc;
+    padding: 2px;
+    border: none;
+    outline: none;
+    width: 470px;
+    vertical-align: middle;
+}
+.btn{
+    float: left;
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFF;
+    background-image: linear-gradient(to right,#ff9000 0,#ff5000 100%);
+    cursor: pointer;
+    width: 74px;
+    height: 40px;
+    line-height: 40px;
+    border-bottom-right-radius: 25px;
+    border-top-right-radius: 25px;
+    text-align: center;
+    
+}
+.search_cate a{
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+
+.search_right{
+    float: left;
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+    position: relative;
+    margin: 20px 0 0 100px;
+}
+.search_quxiao{
+    position: absolute;
+    top:-3px;
+    left: -15px;
+}
+.search_right h6{
+    font-size: 12px;
+    color: red;
+}
+.search_right img{
+    width: 60px;
+    height: 60px;
+}
+
+/* section */
+section{
+    padding-bottom: 50px;
+}
+.content{
+    overflow: hidden;
+}
+aside{
+    width: 190px;
+    float: left;
+    position: relative;
+}
+aside .model{
+    width: 700px;
+    height: 500px;
+    background-color: #fff;
+    position: absolute;
+    left: 190px;
+    top: 30px;
+    z-index: 99;
+    display: none;
+}
+aside h3{
+    text-align: center;
+    font-size: 16px;
+    background: #ff5000;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+}
+aside ul{
+    border: 1px solid #ff5000;
+}
+aside ul li{
+    line-height: 32px;
+    height: 32px;
+    padding-left: 23px;
+    padding-right: 20px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    position: relative;
+    font-size: 14px;
+    font-weight: 400;
+    width: 145px;
+    color: #666;
+}
+.li_left{
+    float: left;
+}
+aside ul li a{
+    font-size: 12px;
+    color: #666;
+}
+aside ul li .iconfont{
+    font-size: 12px;
+    color: #666;
+    float: right;
+}
+
+.content_right{
+    float: left;
+    width: 1000px;
+    height: 500px;
+}
+nav{
+    font-size: 16px;
+    color: #fff;
+    height: 30px;
+    line-height: 30px;
+    background-image: linear-gradient(to right,#ff9000 0,#ff5000 100%);
+}
+nav a{
+    color: #fff;
+    margin: 0 10px;
+}
+
+.content_slider_aside{
+
+}
+.content_slider{
+    float: left;
+    width: 690px;
+    height: 500px;
+    background-color: palegreen;
+    margin: 10px;
+    box-sizing: border-box;
+
+}
+.slider_one{
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.slider_two{
+    overflow: hidden;
+}
+.slider_img{
+    overflow: hidden;
+}
+.slider{
+    float: left;
+    margin-right: 10px;
+    width: 520px;
+    height: 280px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pic{
+    /* width: 2600px; */
+    height: 280px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.pic li{
+    float: left;
+    width: 520px;
+    height: 280px;
+}
+.pic li img{
+    width: 100%;
+    height: 100%;
+}
+#slider2 li img{
+    width: 250px;
+    height: 200px;
+    margin-right: 20px;
+}
+#slider2 li img:last-of-type{
+    margin-right: 0;
+}
+.num{
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+}
+.num li{
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border-radius: 50%;
+    float: left;
+    margin-right: 10px;
+}
+.num .active{
+    background-color: black;
+}
+.sliderbtn{
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 45%;
+    background-color: rgb(244, 244, 244,0.8);
+    border-radius: 50%;
+}
+.sliderbtn img{
+    width: 100%;
+    height: 100%;
+}
+.leftbtn{
+    left: 30px;
+}
+.rightbtn{
+    right: 30px;
+}
+#slider2 .sliderbtn{
+    top: 15%;
+}
+
+.img{
+    float: left;
+}
+
+.content_rightAside{
+    float: left;
+    width: 290px;
+    height: 500px;
+    padding-bottom: 10px;
+    background-color: #fff;
+}
+.rightAside_one{
+    border-bottom: 1px solid #f2f2f2;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.rightAside_one img{
+    border-radius: 50%;
+    margin: 10px 0 0;
+}
+.rightAside_one div:first-of-type{
+    font-size: 12px;
+}
+.rightAside_one div:nth-of-type(2) span{
+    font-size: 12px;
+    color: #ff9000;
+    background-color: #ffe4db;
+    border-radius: 25px;
+    padding: 2px 8px;
+    margin-right: 10px;
+}
+.rightAside_one div:nth-of-type(3) button{
+    background-image: linear-gradient(to right,#ff5000 0,#ff6f06 100%);
+    color: #fff;
+    font-size: 14px;
+    border-radius: 3px;
+    border: none;
+    outline: none;
+    padding: 4px 20px;
+    margin-right: 10px;
+    margin-top: 15px;
+}
+.imgbg{
+    border-bottom: 1px solid #f2f2f2;
+}
+.rightAside_tab{
+    padding-bottom: 10px;
+    text-align: center;
+}
+.rightAside_tab div:first-of-type{
+    display: -webkit-flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+.rightAside_tab a{
+    font-size: 12px;
+    padding-bottom: 4px;
+}
+.rightAside_tab div:first-of-type  a:first-of-type{
+    border-bottom: 2px solid #ff6f06;
+    color: #ff6f06;
+}
+
+.rightAside_li ul{
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    border-top: 1px solid #f2f2f2;
+}
+.rightAside_li ul li{
+    width: 25%;
+    padding: 10px 0;
+    text-align: center;
+    border-right: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    box-sizing: border-box;
+}
+.rightAside_li ul li img{
+    width: 24px;
+    height: 24px;
+
+}
+.rightAside_li ul li span{
+   display: block;
+   text-align: center;
+   font-size: 12px;
+}
+.rightAside_img{
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 20px;
+}
+.rightAside_img div:first-of-type{
+    display: -webkit-flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.rightAside_img b{
+    font-size: 14px;
+}
+.rightAside_img span{
+    font-size: 12px;
+}
+.rightAside_img div:nth-of-type(2){
+    display: -webkit-flex;
+    justify-content: space-around;
+}
+.rightAside_img div:nth-of-type(2) img{
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+}
+
+/* showImg */
+.showImg{
+   padding: 10px 0;
+}
+.showImg img{
+    width: 18%;
+    margin-right: 2%;
+}
+.showImg img:last-of-type{
+    margin: 0;
+}
+
+/* product_list */
+.product_list{
+    background-color: #fff;
+}
+.product_list h3{
+    position: relative;
+    height: 40px;
+    line-height: 45px;
+    padding-left: 40px;
+    color: rgb(255, 159, 0);
+    border-bottom: 1px solid rgb(244, 244, 244);
+    font-size: 18px;
+}
+.product_list h3::before {
+    background: rgb(255, 159, 0);
+}
+.product_list h3:before {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 16px;
+    top: 16px;
+    left: 20px;
+}
+.product_list ul{
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+.product_list ul li{
+    width: 20%;
+    padding: 20px 20px 0;
+    border-right: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+    box-sizing: border-box;
+    position: relative;
+}
+.product_list ul li img{
+    width: 197px;
+    height: 197px;
+}
+.product_list ul li p{
+    font-size: 14px;
+    color: #666666;
+    margin-top: 10px;
+}
+.product_list ul li .price{
+    display: -webkit-flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+.product_list ul li .price div:first-of-type{
+    color: #F40;
+}
+.product_list ul li .price div:first-of-type span:first-of-type{
+    font-size: 12px;
+}
+.product_list ul li .price div:first-of-type span:nth-of-type(2){
+    font-size: 18px;
+}
+.product_list ul li .price div:nth-of-type(2){
+    font-size: 12px;
+    color: #666666;
+    line-height: 24px;
+}
+.cartBtn{
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background-color: rgb(255, 159, 0, 0.8);
+    position: absolute;
+    left: 0;
+    bottom: 30px;
+    display: none;
+    color: #fff;
+    cursor: pointer;
+}
+.product_list ul li:hover .cartBtn{
+    display: block;
+}
+
+/* footer */
+footer{
+    background-color: #fff;
+    padding: 20px 0;
+}
+.footer_top{
+    padding-bottom: 20px;
+    padding-top: 20px;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px;
+    color: #6c6c6c;
+}
+.footer_top a{
+    color: #6c6c6c;
+}
+.footer_top:last-of-type{
+    border: none;
+}

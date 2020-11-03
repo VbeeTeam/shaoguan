@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞机大战</title>
+    <style>
+        .btn {
+            width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="btn">
+        <input type="button" value="开始游戏" id="btnStart">
+        <input type="button" value="暂停游戏" id="btnStop">
+        <input type="button" value="继续游戏" id="btnContinue">
+    </div>
+</body>
+
+</html>
+<script>
+    //ES6 类 继承
+    //项目中的类 1、地图 2.移动的物体（我方战机、敌方战机、子弹）
+    var isRun = false;  //游戏的状态
+    //地图类
+    class Map {
+        constructor(width, height, bgUrl) {
+            this.domObj = null; //存放dom节点
+            this.width = width;
+            this.height = height;
+            this.bgUrl = bgUrl;
+            this.myPlane = [];     //我方战机数组
+            this.enemyPlane = [];  //敌机数组
+            
+
+            this.createUI(); //调用创建地图的方法
+        }
+        //创建地图
+        createUI() {
+            this.domObj = document.createElement("div");
+            this.domObj.style.cssText = "margin:0 auto;position: relative;overflow:hidden;";
+            this.domObj.style.width = this.width + "px";
+            this.domObj.style.height = this.height + "px";
+            this.domObj.style.background = `url(${this.bgUrl})`;
+            document.body.appendChild(this.domObj);
+        }
+
+    }
+    //移动的物体类（我方战机，敌方战机，子弹）
+    class MoveObj {
+
+        constructor(obj) {
+            this.domObj = null; //存放dom节点
+            this.mapObj = null; //所属地图节点
+            this.width = 98; //飞机默认宽高
+            this.height = 122;
+            this.bgUrl = "images/me.png";
+            this.left = 0; //我方战机位置left top
+            this.top = 0;
+            this.dLeft = 0; //我方战机运动方向
+            this.dTop = 0;
+            this.speedX = 0; //我方战机运动步长
+            this.speedY = 0;
+            this.myTimer = null;
+            for (let key in obj) { //循环对象将传进来的数据赋值
+                this[key] = obj[key];
+            }
+
+            this.createUI();
+        }
+
+        //创建视图
+        createUI() {
+            this.domObj = document.createElement("img");
+            this.domObj.src = this.bgUrl;
+            this.domObj.style.position = "absolute";
+            this.domObj.style.width = this.width + "px";
+            this.domObj.style.height = this.height + "px";
+            this.domObj.style.left = this.left + "px";
+            this.domObj.style.top = this.top + "px";
+            this.mapObj.domObj.appendChild(this.domObj);
+        }
+        //开始运动
+        go(){
+            this.myTimer = setInterval(() =>{
+
+                if(!isRun) return;
+
+                //1.改变数据
+                this.left  = this.left + this.dLeft * this.speedX
+                this.top = this.top + this.dTop * this.speedY
+
+                //2.边界
+                if(this.edge()){
+                    return;
+                }
+
+                //子类的函数执行
+                if(this.subClass()){
+                    return;
+                }
+
+                //3.改变外观
+                this.domObj.style.left = this.left + "px";
+                this.domObj.style.top = this.top + "px";
+
+            },100)
+        }
+
+        
+    }
+
+    //我方战机类继承移动的物体类
+    class MyPlane extends MoveObj {
+
+        constructor(obj) {
+            super(obj); //调用父类的构造函数
+            this.keyLeft = obj.keyLeft;
+            this.keyUp = obj.keyUp;
+            this.keyRight = obj.keyRight;
+            this.keyDown = obj.keyDown;
+
+            this.bullets = [];    //子弹的数组
+
+            this.go(); //给我方战机增加事件
+        }
+        //我方战机运动的事件
+        go() {
+           
+            let myPlaneObj = this; //我方战机
+            console.log(myPlaneObj);
+            let mapObj = this.mapObj; //地图
+
+            document.addEventListener('keydown', (event) => {
+                if(!isRun) return;
+                
+                var evt = event || window.event;
+                switch (evt.keyCode) {
+                    case myPlaneObj.keyLeft: //按左键
+                        console.log(myPlaneObj.keyLeft);
+                        myPlaneObj.left = myPlaneObj.left - 10;
+                        break;
+                    case myPlaneObj.keyUp: //按上键
+                        myPlaneObj.top = myPlaneObj.top - 10;
+                        break;
+                    case myPlaneObj.keyRight: //按右键
+                        myPlaneObj.left = myPlaneObj.left + 10;
+                        break;
+                    case myPlaneObj.keyDown: //按下键
+                        myPlaneObj.top = myPlaneObj.top + 10;
+                        break;
+                }
+                //按键按下的时候调用视图移动方法
+                changeUI();
+            })
+            
+
+            //控制我方战机上下左右运动
+            function changeUI() {
+              
+                //边界判断
+                if(myPlaneObj.left < 0){
+                    myPlaneObj.left = 0;
+                }else if(myPlaneObj.left + myPlaneObj.width > mapObj.width){
+                    myPlaneObj.left = mapObj.width - myPlaneObj.width;
+                }
+                if(myPlaneObj.top < 0){
+                    myPlaneObj.top = 0
+                }else if(myPlaneObj.top + myPlaneObj.height > mapObj.height){
+                    myPlaneObj.top = mapObj.height - myPlaneObj.height;
+                }
+                //改变外观
+                myPlaneObj.domObj.style.left = myPlaneObj.left + "px";
+                myPlaneObj.domObj.style.top = myPlaneObj.top + "px";
+
+            }
+        }
+
+        //子弹方法
+        shoot() {
+            setInterval(() => {
+            let bwidth = 6;
+            let bHeight = 14;
+            let left1 = this.left + (this.width - bwidth) / 2;
+            let top1 = this.top - bHeight;
+
+             let b =  new Bullet({
+                 "mapObj": this.mapObj,
+                 "width": bwidth,
+                 "height": bHeight,
+                 "bgUrl": "images/bullet1.png",
+                 "left": left1,
+                 "top": top1,
+                 "dTop": -1,
+                 "speedY": bHeight * 2,
+                 "myPlane": this
+             });
+             b.go(); //调用子弹运动的方法
+            //  this.bullets.push(b);  //将子弹存到子弹数组
+            },100)
+        }
+    }
+
+    //敌方战机类继承移动的物体的类
+    class EnemyPlane extends MoveObj {
+
+        constructor(obj) {
+            super(obj);
+            this.boomImages = obj.boomImages;
+        }
+
+        //边界判断
+        edge() {
+            if(this.left < 0){
+                this.left = 0;
+            }else if(this.left + this.width > this.mapObj.width){
+                this.left = this.mapObj.width - this.width;
+            }
+            if(this.top > this.mapObj.height){
+                //删除敌机
+                this.die();
+                return true;
+            }   
+            return false;
+        }
+        //删除敌机
+        die() {
+            //清空定时器
+            clearInterval(this.myTimer);
+            //1.敌机消失
+            if(this.domObj.parentNode){
+                this.domObj.parentNode.removeChild(this.domObj);
+            }
+            //2.删除数组中的敌机
+            let index = this.mapObj.enemyPlane.indexOf(this);
+            if(index > -1){
+                this.mapObj.enemyPlane.splice(index,1);
+            }
+        }
+        //销毁敌机
+        boom() {
+            console.log(111)
+            //1.清空定时器
+            clearInterval(this.myTimer);
+            //2.删除数组中的敌机
+            let index = this.mapObj.enemyPlane.indexOf(this);
+            if(index > -1){
+                this.mapObj.enemyPlane.splice(index,1);
+            }
+            //3.爆炸效果
+            let enemyPlane = this;
+            let imgIndex = -1;
+            //播放爆炸图片 
+           let boomTimer = setInterval(() => {
+                imgIndex ++;
+                if(imgIndex >= this.boomImages.length){
+                    clearInterval(boomTimer);
+                    //删除敌机dom
+                    enemyPlane.domObj.parentNode.removeChild(enemyPlane.domObj);
+                    return;
+                }
+                this.domObj.src = this.boomImages[imgIndex];
+            }, 100)
+        }
+
+        subClass() {
+            return false;
+        }
+
+    }
+
+    //子弹的类继承移动物体的类
+    class Bullet extends MoveObj {
+        constructor(obj){
+            super(obj);  //继承父类构造函数
+            this.myPlane = obj.myPlane;   //子弹所属的飞机
+        }
+        //边界判断
+        edge() {
+            if(this.left < 0){
+                this.left = 0;
+            }else if(this.left + this.width > this.mapObj.width){
+                this.left = this.mapObj.width - this.width;
+            }
+            if(this.top < -1 * this.height){
+                this.die();
+                return true;
+            }
+            return false;
+        }
+        //子弹消失
+        die(){
+            clearInterval(this.myTimer);
+            //1.让子弹消失
+            this.domObj.parentNode.removeChild(this.domObj);
+            //2.删除数组中的子弹
+            let index = this.myPlane.bullets.indexOf(this);
+            this.myPlane.bullets.splice(index, 1);
+        }
+        //子弹击中敌方战机
+        hit() {
+            //1.循环所有敌机，判断当前子弹是否和某个敌机有接触
+            for(let i = 0; i < this.mapObj.enemyPlane.length; i++){
+                let obj = this.mapObj.enemyPlane[i];
+
+                //判断是否接触
+                //横向：子弹的左边的距离 + 子弹自身的宽 > 敌机左边的距离 && 子弹左边的距离 < 敌机左边的距离 + 敌机的宽度
+                //纵向： 子弹上边的距离 + 子弹的高度 > 敌机上边的距离 && 子弹的上边的距离 < 敌机上边的距离 + 敌机的高度
+                let bLeft = this.left;
+                let bRight = this.left + this.width;
+                let bTop = this.top;
+                let bBottom = this.top + this.height;
+
+                let eLeft = obj.left;
+                let eRight = obj.left + obj.width;
+                let eTop = obj.top;
+                let eBottom = obj.top + obj.height;
+
+                if(bRight > eLeft && bLeft < eRight && bBottom > eTop && bTop < eBottom){
+                    //让子弹消失
+                    this.die();
+                    //让敌机消失
+                    obj.boom();
+
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        subClass() {
+            return this.hit();
+        }
+    }
+
+    //获取id方法
+    function $(id) {
+        return document.getElementById(id);
+    }
+    //开始游戏
+    function startGame() {
+        isRun = true;
+        //1.创建地图
+        let m = new Map(500, 600, "images/bg.jpg");
+
+        //2.创建我方战机1
+        let myPlane = new MyPlane({
+            "mapObj": m,
+            "top": m.height - 122,
+            "keyLeft": 37,
+            "keyUp": 38,
+            "keyRight": 39,
+            "keyDown": 40
+        })
+        m.myPlane.push(myPlane);
+        myPlane.shoot();   //创建子弹
+
+        //3.创建我方战机2
+        myPlane = new MyPlane({
+            "mapObj": m,
+            "left": m.width - 98,
+            "top": m.height - 122,
+            "keyLeft": 65,
+            "keyUp": 87,
+            "keyRight": 68,
+            "keyDown": 83
+        })
+        m.myPlane.push(myPlane);
+        myPlane.shoot(); //创建子弹
+
+        //4.创建敌机
+        setInterval(() => {
+            let eLeft = Math.random() * (m.width - 59) + 50;
+            let e = new EnemyPlane({
+                "mapObj": m,
+                "width": 59,
+                "height": 36,
+                "bgUrl": "images/plain1.png",
+                "left": eLeft,
+                "top": -1 * 36,
+                "dTop": 1,
+                "speedY": 3,
+                "boomImages": ["images/plain1_die1.png","images/plain1_die2.png","images/plain1_die3.png"]
+            })
+            e.go();   //调用运动方法
+            m.enemyPlane.push(e); //存敌机
+        },1000)
+        
+    }
+    //点击开始
+    $("btnStart").onclick = startGame;
+    //暂停
+    $("btnStop").onclick  = function() {
+        isRun = false;
+    }
+    //开始
+    $("btnContinue").onclick = function(){
+        isRun = true;
+    }
+</script>

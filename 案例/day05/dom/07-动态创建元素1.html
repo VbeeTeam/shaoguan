@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <h1>标题</h1>
+  <img src="" alt="">
+  <input type="button" value="按钮" id="btn">
+
+  <div id="box"></div>
+  <script>
+    // 动态创建元素
+    // document.write()
+    var btn = document.getElementById('btn');
+    btn.onclick = function () {
+      // 当点击按钮的时候使用document.write()输出内容，会把之前的整个页面覆盖掉
+      document.write('Hello <p>World</p>');
+    }
+    
+    // element.innerHTML
+    // var btn = document.getElementById('btn');
+    // btn.onclick = function () {
+    //   var box = document.getElementById('box');
+    //   box.innerHTML = 'Hello <p>World</p>';
+    // }
+
+
+    // document.createElement()
+    // 在内存中创建一个DOM对象
+    var p = document.createElement('p');
+    // 设置对象的属性
+    p.innerText = 'hello';
+    p.style.color = 'red';
+
+    // 把p元素，放到DOM树上
+    var box = document.getElementById('box');
+    box.appendChild(p);
+  </script>
+</body>
+</html>

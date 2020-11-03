@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+
+<body>
+    <button onclick="send()">段子查询</button>
+
+    <div id="box"></div>
+
+</body>
+
+</html>
+
+<script>
+  
+    function send() {
+  
+        // 1、创建XMLHttpRequest对象
+        var xhr = new XMLHttpRequest();
+
+        // 2、向服务器发送请求
+        // xhr.open("GET", "https://api.apiopen.top/getJoke", true);
+
+        xhr.open("GET", "https://api.apiopen.top/getJoke?page=1&count=2&type=video", true);
+
+        // 3、执行发送动作
+        xhr.send();
+
+        // 4、服务器响应的处理
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+               console.log(xhr.responseText);
+               var obj = JSON.parse(xhr.responseText);
+               console.log(obj);
+                var data = obj.result;
+
+                //渲染数据
+                var boxDom = document.getElementById("box");
+
+                //创建ul
+                var ul = document.createElement("ul");
+
+                for(var i = 0; i < data.length; i++){
+                    var li = document.createElement("li");
+                    li.innerHTML = data[i].text;
+                    ul.appendChild(li)
+                }
+                boxDom.appendChild(ul);
+
+            }
+        }
+    }
+</script>
