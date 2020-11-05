@@ -22,37 +22,8 @@
 		动态显示初始化数据
 		交互
 
-# 2. app1: 实现一个评论管理功能
-## 1). 拆分组件:
-	应用组件: App
-	添加评论组件: CommentAdd
-	评论项组件: CommentItem
-	评论列表组件: CommentList
-## 2). 确定组件的state和props:
-	App: 
-		* state: comments/array
-	CommentAdd
-		* state: username/string, content/string
-		* props: add/func
-	commentList
-	  	* props: comments/array, delete/func
-	CommentItem
-		* props: comment/object, delete/func, index/number
-## 3). 编写静态组件
-	拆分页面
-	拆分css
-## 4). 实现动态组件
-	1. 动态展示初始化数据
-	  * 初始化状态数据
-	  * 传递属性数据
-	2. 响应用户操作, 更新组件界面
-	  * 绑定事件监听, 并处理
-	  * 更新state
 
-# 3. app2: 实现github用户搜索功能
-## 1). react应用中的ajax请求
-	axios: 包装XMLHttpRequest对象, promise风格, 支持浏览端/node服务器端
-	fetch: 浏览器内置语法, promise风格, 老浏览器不支持, 可以引入fetch.js兼容包
+
 ## 2). 拆分组件
     App
     	* state: searchName/string
@@ -67,7 +38,10 @@
 		componentWillReceiveProps(nextProps): 监视接收到新的props, 发送ajax
 		使用axios库发送ajax请求
 
-# 4. 组件间通信总结
+
+
+# 2. 组件间通信总结
+
 ## 1). 方式一: 通过props传递
 	共同的数据放在父组件上, 特有的数据放在自己组件内部(state)
 	一般数据-->父组件传递数据给子组件-->子组件读取数据
@@ -99,7 +73,57 @@
 			* 事件名(类型): 与绑定的事件监听的事件名一致
 			* 数据: 会自动传递给回调函数
 
-# 5. ES6新语法总结
+## 4）. react应用中的ajax请求
+
+	json-server: 模拟数据的      
+	安装： npm install json-server -g
+	启动 
+	1）cd mock文件下
+	2）输入：json-server json数据的名字 --port 4000
+	
+	axios: 包装XMLHttpRequest对象, promise风格, 支持浏览端/node服务器端 
+	安装： npm install --save axios
+	
+	执行 GET 请求
+	// 为给定 ID 的 user 创建请求
+	axios.get('/user?ID=12345')
+	  .then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+	// 上面的请求也可以这样做
+	axios.get('/user', {
+	    params: {
+	      ID: 12345
+	    }
+	  })
+	  .then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+	  
+	执行 POST 请求
+	axios.post('/user', {
+	    firstName: 'Fred',
+	    lastName: 'Flintstone'
+	  })
+	  .then(function (response) {
+	    console.log(response);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
+	
+	
+
+## 
+
+# 3. ES6新语法总结
+
 	定义变量/常量: const/let
 	解构赋值: let {a, b} = this.props   import {aa} from 'xxx'
 	对象的简洁表达: {a, b}
@@ -114,7 +138,7 @@
 	类: class/extends/constructor/super
 	ES6模块化: export default | import
 
-# 6. 项目打包运行
+# 4. 项目打包运行
 	npm run build  //生成打包文件
 	npm install -g serve  //全局下载服务器包
 	serve build  //通过服务器命令运行打包项目
