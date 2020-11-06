@@ -9,14 +9,14 @@
 	整个应用只有一个完整的页面
 	点击页面中的链接不会刷新页面, 本身也不会向服务器发请求
 	当点击路由链接时, 只会做页面的局部更新
-	数据都需要通过ajax请求获取, 并在前端异步展现
+	数据都需要通过ajax请求获取, 并在前端异步展现（同时进行的）
 ## 2). 路由
 	1. 什么是路由?
-		一个路由就是一个映射关系(key:value)
-		key为路由路径, value可能是function/component
+		一个路由就是一个映射关系（key:value）
+		key:为路由的路径 value:function/component
 	2. 路由分类
-		后台路由: node服务器端路由, value是function, 用来处理客户端提交的请求并返回一个响应数据
-		前台路由: 浏览器端路由, value是component, 当请求的是路由path时, 浏览器端会更新显示对应的组件 
+		后台路由: node服务端的路由，key也是路由路径，value是一个函数function，用来处理客户端提交的请求并返回一个响应数据
+		前台路由:  浏览器端的路由，value是component,当请求的路由是path时，浏览器就会更新显示对应的组件
 	3. 后台路由
 		* 注册路由: router.get(path, function(req, res))
 		* 当node接收到一个请求时, 根据请求路径找到匹配的路由, 调用路由中的函数来处理请求, 返回响应数据
@@ -78,7 +78,8 @@
 	2.query
 	<NavLink  to={pathname:"/home/news/detail",query:{id:id}}></NavLink>
 	接收：this.props.location.query
-	
+	缺点：刷新地址，参数不存在
+
 
 ## 9). 路由前进、后退
 

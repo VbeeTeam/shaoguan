@@ -5,6 +5,8 @@ import App from './App';
 
 import {BrowserRouter} from "react-router-dom"
 
+import 'antd-mobile/dist/antd-mobile.css'; 
+
 ReactDOM.render(
   (<BrowserRouter><App /></BrowserRouter>),
   document.getElementById('root')
