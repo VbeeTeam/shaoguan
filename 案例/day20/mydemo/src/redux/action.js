@@ -1,3 +1,5 @@
+//修改数据的条件
+
 //增加
 export const add=(num) => {
     return {type:"ADD", data:num}

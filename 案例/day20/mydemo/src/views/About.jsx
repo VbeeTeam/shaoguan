@@ -19,7 +19,13 @@ class About extends Component {
             })
         })
     }
-   
+    
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return;
+          };
+    }
+
     render() {
         return (
             <div>
