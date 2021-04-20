@@ -7,7 +7,7 @@ import {
 } from 'element-ui';
 
 //默认请求地址
-axios.defaults.baseURL = "http://localhost:3000/customer";
+axios.defaults.baseURL = "http://localhost:3000";
 //默认的请求时间
 axios.defaults.timeout = 5000;
 //请求头数据类型
@@ -56,6 +56,26 @@ export function get(url, params) {
 export function post(url, data) {
     return new Promise((resolve, reject) => {
         axios.post(url, data).then(res => {
+            resolve(res.data);
+        }).catch(err => {
+            reject(err.data);
+        })
+    })
+}
+
+export function put(url, data) {
+    return new Promise((resolve, reject) => {
+        axios.put(url, data).then(res => {
+            resolve(res.data);
+        }).catch(err => {
+            reject(err.data);
+        })
+    })
+}
+
+export function del(url, data) {
+    return new Promise((resolve, reject) => {
+        axios.delete(url, {data: data}).then(res => {
             resolve(res.data);
         }).catch(err => {
             reject(err.data);

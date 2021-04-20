@@ -6,9 +6,20 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var customerRouter = require('./routes/customer');
+var listRouter = require('./routes/list');
+var addRouter = require('./routes/add');
+var editRouter = require('./routes/edit');
+var deleteRouter = require('./routes/delete');
 
 var app = express();
+
+//允许所有跨域请求
+app.all("*", function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST,DELETE,GET,PUT");
+  res.header("Access-Control-Allow-Headers", "Content-Type,XFILENAME,XFILECATEGORY,XFILESIZE");
+  next();
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,7 +33,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/customer', customerRouter);
+app.use('/list', listRouter);
+app.use('/add', addRouter);
+app.use('/edit', editRouter);
+app.use('/delete', deleteRouter);
 
 
 // catch 404 and forward to error handler

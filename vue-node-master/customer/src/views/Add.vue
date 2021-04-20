@@ -19,7 +19,7 @@
           <el-input v-model="form.phone" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.memo" autocomplete="off"></el-input>
+          <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item style="text-align: center; padding-bottom: 20px">
           <el-button type="primary" @click="submitForm('ruleForm')"
@@ -57,7 +57,7 @@ export default {
         sex: "",
         age: "",
         phone: "",
-        memo: "",
+        description: "",
       },
       rules: {
         name: [
@@ -80,7 +80,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           apiAdd(this.form).then((res) => {
-            if (res.title) {
+            if (res.code == 200) {
               this.$router.push({ path: "/" });
             }
           });

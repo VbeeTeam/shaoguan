@@ -19,12 +19,10 @@
           <el-input v-model="form.phone" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.memo" autocomplete="off"></el-input>
+          <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item style="text-align: center; padding-bottom: 20px">
-          <el-button type="primary" @click="submitForm('ruleForm')"
-            >确认</el-button
-          >
+          <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
           <el-button @click="resetForm('ruleForm')">取消</el-button>
         </el-form-item>
       </el-form>
@@ -57,7 +55,7 @@ export default {
         sex: "",
         age: "",
         phone: "",
-        memo: "",
+        description: "",
       },
       rules: {
         name: [
@@ -78,15 +76,16 @@ export default {
     //查询数据
     getInfo() {
       apiSearch({ id: this.$route.query.id }).then((res) => {
-        this.form = res.obj;
+        this.form = res.data;
       });
     },
     //确认修改
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          console.log(this.form);
           apiEdit(this.form).then((res) => {
-            if (res.title) {
+            if (res.code == 200) {
               this.$router.push({ path: "/" });
             }
           });

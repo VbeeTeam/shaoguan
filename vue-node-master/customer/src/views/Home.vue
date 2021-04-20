@@ -32,7 +32,7 @@
           </el-table-column>
           <el-table-column label="年龄" width="180" prop="age"></el-table-column>
           <el-table-column label="手机号" width="180" prop="phone"></el-table-column>
-          <el-table-column label="备注" width="180" prop="memo"></el-table-column>
+          <el-table-column label="备注" width="180" prop="description"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
              <el-button size="mini" @click="handleEdit(scope.row.id)">编辑</el-button>
@@ -99,7 +99,7 @@ export default {
         sex: this.formInline.sex
       }
       apiList(obj).then((res) => {
-        this.tableData = res.list.data;
+        this.tableData = res.data;
         this.total = res.total;
       });
     },
@@ -113,7 +113,7 @@ export default {
     },
     handleDelete(index, row) {
       apiDelete({ id: row.id }).then((res) => {
-        this.tableData = res.list;
+        alert("删除成功")
       });
     },
     handleSizeChange(val) {
